@@ -1,0 +1,28 @@
+\documentclass{article}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+
+\begin{document}
+\begin{algorithm}
+	\caption{BINARY-SEARCH}
+	\begin{algorithmic}[1]
+		\Function{BINARY-SEARCH}{A, key}
+		\State left = 1
+		\State right = A.$length$
+		\While{left $<$ right}
+		  \State mid = $\lfloor$(left+right)/2$\rfloor$
+		  \If{key $==$ A[mid]}
+		    \State return mid
+		  \ElsIf{key $<$ A[mid]}
+		    \State right = mid - 1
+		  \Else
+		    \State left = mid + 1
+		  \EndIf
+		\EndWhile
+		\State return -1
+		\EndFunction
+		
+	\end{algorithmic}
+\end{algorithm}
+\end{document}
