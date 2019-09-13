@@ -10,7 +10,7 @@
 		\Function{BINARY-SEARCH}{A, key}
 		\State left = 1
 		\State right = A.$length$
-		\While{left $<$ right}
+		\While{left $\le$ right} \Comment{$\le$ is important}
 		  \State mid = $\lfloor$(left+right)/2$\rfloor$
 		  \If{key $==$ A[mid]}
 		    \State return mid
@@ -20,7 +20,7 @@
 		    \State left = mid + 1
 		  \EndIf
 		\EndWhile
-		\State return -1
+		\State return -1 \Comment{If not found, return -1}
 		\EndFunction
 		
 	\end{algorithmic}
