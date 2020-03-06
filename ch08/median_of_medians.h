@@ -7,6 +7,7 @@
 #ifndef MEDIAN_OF_MEDIAN_H
 #define MEDIAN_OF_MEDIAN_H
 
+#include <cstdio>
 #include <vector>
 #include <algorithm>
 using namespace std;
@@ -16,10 +17,10 @@ static constexpr int BASE_SIZE = 32;
 int select(vector<int> &A, int l, int r, int n);
 int selectMM(vector<int> &A, int l, int r, int n);
 pair<int, int> partition(vector<int> &A, int l, int r, int pivotIndex);
-int selectPivot(vector<int> &A, int l, int r);
-void insertionSort(vector<int> &A, int l, int r);
-int median3(vector<int> &A, int l, int r);
-void mySwap(int &lhs, int &rhs);
+static int selectPivot(vector<int> &A, int l, int r);
+static void insertionSort(vector<int> &A, int l, int r);
+static int median3(vector<int> &A, int l, int r);
+static void mySwap(int &lhs, int &rhs);
 
 // First we start off with some "money" using the simple median-of-3 pivot strategy.
 // When we spend all the "money" we have, we may have encountered a killer sequence
@@ -47,16 +48,21 @@ int select(vector<int> &A, int l, int r, int n){
     return selectMM(A, l, r, n);
 }
 
-// Return the index of the median of {A[l], A[(l+r)/2], A[r-1]}.
+// Reorder the elements {A[l], A[(l+r)/2], A[r-1]} so
+// A[(l+r)/2] becomes the median of these three.
 // 
-// Return: either l, (l+r)/2 or r-1.
+// Return: (l+r)/2
 static inline int median3(vector<int> &A, int l, int r){
     int mid = (l + r) / 2;
-    //int ans2 = (A[mid] <= A[l] <= A[r-1]) ? l : r-1;
-    //return (A[l] <= A[mid] <= A[r - 1]) ? mid : ans2;
-    if(A[l] <= A[mid] <= A[r-1]) return mid;
-    else if(A[mid] <= A[l] <= A[r-1]) return l;
-    else return r-1;
+	if(A[l] > A[mid]){
+		mySwap(A[l], A[mid]);
+	}
+
+	if(A[mid] > A[r-1]){
+		mySwap(A[mid], A[r-1]);
+		if(A[l] > A[mid]) mySwap(A[l], A[mid]);
+	}
+	return mid;
 }
 
 
@@ -112,7 +118,7 @@ pair<int, int> partition(vector<int> &A, int l, int r, int pivotIndex){
 
 // This function selects the median of medians as pivot for the partition
 // function.
-//   1) it first divices every consecutive 5 elements into one group;
+//   1) it first divides every consecutive 5 elements into one group;
 //   2) use insertion sort to select the median of the 5 elements in one group;
 //   3) recursively call selectMM on the medians of all the groups to find the median;
 // 
@@ -148,7 +154,7 @@ static int selectPivot(vector<int> &A, int l, int r){
 }
 
 // Just a simple insertion sorting algorithm.
-static inline void insertionSort(vector<int> &A, int l, int r){
+static void insertionSort(vector<int> &A, int l, int r){
     for(int i = l + 1; i < r; i++){
         int j = i;
         while(j > l && A[j-1] > A[j]) {

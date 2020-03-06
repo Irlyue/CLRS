@@ -13,7 +13,7 @@ int selectUsingSort(vector<int> &A, int l, int r, int n){
 }
 
 int selectUsingNthElement(vector<int> &A, int l, int r, int n) {
-    nth_element(A.begin()+l, A.begin() + n + 1, A.begin() + r);
+    nth_element(A.begin() + l, A.begin() + n, A.begin() + r);
     return A[n];
 }
 
@@ -46,7 +46,8 @@ int main(int argc, char* argv[]){
 	}else if("ascending" == string(argv[1])){
 		for(int i = 0; i < total; i++) A[i] = i;
 	}else if("rand1" == string(argv[1])){
-		for(int i = 0; i < total; i++) A[i] = 1L * rand() * rand();
+		cout << RAND_MAX << endl;
+		for(int i = 0; i < total; i++) A[i] = 1L * rand() * rand() % RAND_MAX;
 	}else if("rand2" == string(argv[1])){
 		for(int i = 0; i < total; i++) A[i] = rand();
 	}else if("rand3" == string(argv[1])){
